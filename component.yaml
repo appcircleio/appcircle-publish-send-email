@@ -39,11 +39,6 @@ inputs:
   isRequired: true
   title: Subject
   description: "Subject of the email"
-- key: "AC_EMAIL_BODY"
-  defaultValue: ""
-  isRequired: true
-  editorType: textarea
-  title: Body
   description: "Body content of the email, $ENV variables may be used inside"
 - key: "AC_EMAIL_USE_TLS"
   defaultValue: "true"
@@ -77,7 +72,11 @@ inputs:
   description: "Select the email provider configuration to use"
   options: "gmail,office365,outlook,yahoo,zoho,sendgrid,aws,protonmail"
   helpText: "Choose your email provider. This affects SMTP host, port, and authentication behavior."
-
+- key: "AC_EMAIL_BODY"
+  defaultValue: ""
+  isRequired: true
+  editorType: textarea
+  title: Email Content
 processFilename: bash
 processArguments: "%AC_STEP_TEMP%/main.sh"
 files:
