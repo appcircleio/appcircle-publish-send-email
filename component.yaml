@@ -39,12 +39,44 @@ inputs:
   isRequired: true
   title: Subject
   description: "Subject of the email"
+  description: "Body content of the email, $ENV variables may be used inside"
+- key: "AC_EMAIL_USE_TLS"
+  defaultValue: "true"
+  isRequired: true
+  editorType: select
+  title: Use TLS
+  description: "Your provider's TLS setting"
+  options: "true,false"
+  helpText:
+- key: "AC_EMAIL_USE_SSL"
+  defaultValue: "true"
+  isRequired: true
+  editorType: select
+  title: Use SSL
+  description: "Your provider's SSL setting"
+  options: "true,false"
+  helpText:
+- key: "AC_EMAIL_AUTH"
+  defaultValue: "true"
+  isRequired: true
+  editorType: select
+  title: Use Authentication
+  description: "Is authentication is required"
+  options: "true,false"
+  helpText:
+- key: "AC_EMAIL_ACCOUNT"
+  defaultValue: "gmail"
+  isRequired: true
+  editorType: select
+  title: Email Provider Account
+  description: "Select the email provider configuration to use"
+  options: "gmail,office365,outlook,yahoo,zoho,sendgrid,aws,protonmail"
+  helpText: "Choose your email provider. This affects SMTP host, port, and authentication behavior."
 - key: "AC_EMAIL_BODY"
   defaultValue: ""
   isRequired: true
   editorType: textarea
-  title: Body
-  description: "Body content of the email, $ENV variables may be used inside"
+  title: Email Content
 processFilename: bash
 processArguments: "%AC_STEP_TEMP%/main.sh"
 files:

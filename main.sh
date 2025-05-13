@@ -2,6 +2,18 @@
 
 set -e
 
+echo "🔧 Email configuration:"
+echo "  Host: $AC_EMAIL_HOST"
+echo "  Port: $AC_EMAIL_PORT"
+echo "  From: $AC_EMAIL_FROM"
+echo "  To: $AC_EMAIL_TO"
+echo "  Subject: $AC_EMAIL_SUBJECT"
+echo "  Use TLS: $AC_EMAIL_USE_TLS"
+echo "  Use SSL: $AC_EMAIL_USE_SSL"
+echo "  Use Auth: $AC_EMAIL_AUTH"
+echo "  Account: $AC_EMAIL_ACCOUNT"
+
+# Load variables
 HOST="$AC_EMAIL_HOST"
 PORT="$AC_EMAIL_PORT"
 USERNAME="$AC_EMAIL_USERNAME"
@@ -9,6 +21,10 @@ PASSWORD="$AC_EMAIL_PASSWORD"
 EMAIL_FROM="$AC_EMAIL_FROM"
 EMAIL_TO="$AC_EMAIL_TO"
 EMAIL_SUBJECT="$AC_EMAIL_SUBJECT"
+AC_EMAIL_ACCOUNT="$AC_EMAIL_ACCOUNT"
+AC_EMAIL_USE_TLS="$AC_EMAIL_USE_TLS"
+AC_EMAIL_USE_SSL="$AC_EMAIL_USE_SSL"
+AC_EMAIL_AUTH="$AC_EMAIL_AUTH"
 
 # Check for required tools
 if ! command -v envsubst >/dev/null; then
@@ -46,21 +62,31 @@ if ! command -v msmtp >/dev/null; then
     fi
 fi
 
+# Convert "True"/"False" to "on"/"off"
+to_bool_flag() {
+    [ "${1,,}" == "true" || "${1,,}" == "True" ] && echo "on" || echo "off"
+}
+
+TLS_FLAG=$(to_bool_flag "$AC_EMAIL_USE_TLS")
+SSL_FLAG=$(to_bool_flag "$AC_EMAIL_USE_SSL")
+AUTH_FLAG=$(to_bool_flag "$AC_EMAIL_AUTH")
+
 cat <<EOF > ~/.msmtprc
 defaults
-auth on
-tls on
+auth $AUTH_FLAG
+tls $TLS_FLAG
+tls_starttls $TLS_FLAG
 tls_trust_file /etc/ssl/certs/ca-certificates.crt
 logfile ~/.msmtp.log
 
-account default
+account $AC_EMAIL_ACCOUNT
 host $HOST
 port $PORT
 from $USERNAME
 user $USERNAME
 password $PASSWORD
 
-account default: default
+account default: $AC_EMAIL_ACCOUNT
 EOF
 
 chmod 600 ~/.msmtprc
