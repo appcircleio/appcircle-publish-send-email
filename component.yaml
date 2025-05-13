@@ -30,17 +30,17 @@ inputs:
   title: From
   description: "Sender name and email in format: Name <email@example.com>"
 - key: "AC_EMAIL_TO"
-  defaultValue: "$AC_EMAIL_TO"
+  defaultValue: ""
   isRequired: true
   title: To
   description: "Comma-separated recipient email addresses"
 - key: "AC_EMAIL_SUBJECT"
-  defaultValue: "$AC_EMAIL_SUBJECT"
+  defaultValue: ""
   isRequired: true
   title: Subject
   description: "Subject of the email"
 - key: "AC_EMAIL_BODY"
-  defaultValue: "This is a test email."
+  defaultValue: ""
   isRequired: true
   editorType: textarea
   title: Body
