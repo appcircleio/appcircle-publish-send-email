@@ -1,0 +1,60 @@
+platform: Common
+purpose: Publish
+buildPlatform:
+displayName: "Send Email"
+description: "Sends custom email with given settings"
+
+inputs:
+- key: "AC_EMAIL_HOST"
+  defaultValue: "$AC_EMAIL_HOST"
+  isRequired: true
+  title: Mail host
+  description: "Domain or IP address of the mail server"
+
+- key: "AC_EMAIL_PORT"
+  defaultValue: "$AC_EMAIL_PORT"
+  isRequired: true
+  title: Mail port
+  description: "SMTP port of the mail server"
+
+- key: "AC_EMAIL_USERNAME"
+  defaultValue: "$AC_EMAIL_USERNAME"
+  isRequired: true
+  title: SMTP Username
+  description: "Email address used for login"
+
+- key: "$AC_EMAIL_PASSWORD"
+  defaultValue: "$AC_EMAIL_PASSWORD"
+  isRequired: true
+  title: SMTP Password
+  description: "Password for the email account"
+
+- key: "$AC_EMAIL_FROM"
+  defaultValue: "$AC_EMAIL_FROM"
+  isRequired: true
+  title: From
+  description: "Sender name and email in format: Name <email@example.com>"
+
+- key: "AC_EMAIL_TO"
+  defaultValue: "$AC_EMAIL_TO"
+  isRequired: true
+  title: To
+  description: "Comma-separated recipient email addresses"
+
+- key: "AC_EMAIL_SUBJECT"
+  defaultValue: "$AC_EMAIL_SUBJECT"
+  isRequired: true
+  title: Subject
+  description: "Subject of the email"
+
+- key: "AC_EMAIL_BODY"
+  defaultValue: "This is a test email."
+  isRequired: true
+  editorType: textarea
+  title: Body
+  description: "Body content of the email, $ENV variables may be used inside"
+
+processFilename: bash
+processArguments: "%AC_STEP_TEMP%/main.sh"
+files:
+- "main.sh"
