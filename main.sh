@@ -34,17 +34,21 @@ fi
 
 EMAIL_BODY="$(echo "$AC_EMAIL_BODY" | sed 's/\\\$/ESCAPED_DOLLAR/g' | envsubst | sed 's/ESCAPED_DOLLAR/\$/g')"
 
-# Detect OS
+# Detect OS and trust file path
 os=""
+tls_trust_file=""
 if uname -a | grep -iq "darwin"; then
     os="darwin"
+    tls_trust_file="/opt/homebrew/etc/openssl@3/cert.pem"
 elif uname -a | grep -iq "linux"; then
     os="linux"
+    tls_trust_file="/etc/ssl/certs/ca-certificates.crt"
 else
     echo "Unsupported OS"
     exit 1
 fi
 
+# Install msmtp if not available
 if ! command -v msmtp >/dev/null; then
     if [ "$os" == "darwin" ]; then
         if ! command -v brew >/dev/null; then
@@ -80,7 +84,7 @@ defaults
 auth $AUTH_FLAG
 tls $TLS_FLAG
 tls_starttls $TLS_FLAG
-tls_trust_file /etc/ssl/certs/ca-certificates.crt
+tls_trust_file $tls_trust_file
 logfile ~/.msmtp.log
 
 account $AC_EMAIL_ACCOUNT
