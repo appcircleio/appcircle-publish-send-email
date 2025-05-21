@@ -39,7 +39,6 @@ inputs:
   isRequired: true
   title: Subject
   description: "Subject of the email"
-  description: "Body content of the email, $ENV variables may be used inside"
 - key: "AC_EMAIL_USE_TLS"
   defaultValue: "true"
   isRequired: true
@@ -77,6 +76,7 @@ inputs:
   isRequired: true
   editorType: textarea
   title: Email Content
+  description: "Body content of the email, $ENV variables may be used inside"
 processFilename: bash
 processArguments: "%AC_STEP_TEMP%/main.sh"
 files:
