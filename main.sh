@@ -62,9 +62,13 @@ if ! command -v msmtp >/dev/null; then
     fi
 fi
 
-# Convert "True"/"False" to "on"/"off"
 to_bool_flag() {
-    [ "${1,,}" == "true" || "${1,,}" == "True" ] && echo "on" || echo "off"
+    local input=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+    if [ "$input" == "true" ]; then
+        echo "on"
+    else
+        echo "off"
+    fi
 }
 
 TLS_FLAG=$(to_bool_flag "$AC_EMAIL_USE_TLS")
